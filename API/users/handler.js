@@ -1,13 +1,14 @@
-const {User} = require('./model.js')
+const {User} = require('./model.js');
+const hash = require('../../utils/hash.js');
 
 const register = async (req, res) => {
     let hashedPass = hash(req.body.pass);
 
-    let user = new User {
+    let user = new User ({
         name: req.body.name,
         email: req.body.email,
         password: hashedPass
-    };
+    });
 
     await user.save()
         .then(([newUser]) => {
@@ -19,3 +20,7 @@ const register = async (req, res) => {
         })
         .catch(err => res.status(500).json({message: err}))
 };
+
+module.exports = {
+    register
+}

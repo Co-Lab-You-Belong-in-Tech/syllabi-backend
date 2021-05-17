@@ -1,14 +1,22 @@
+// packages
 require('dotenv').config();
-
 const express = require('express');
 
-const mongoose = require('./utils/mongoose.js')
-const serverConfig = require('./middleware/ConfigAPI.js')
+// utils
+const mongoose = require('./utils/mongoose.js');
+
+// middleware
+const serverConfig = require('./middleware/ConfigAPI.js');
+
+// routes
+const userRoutes = require('./API/users/routes.js')
 
 const server = express();
 serverConfig(server);
 
 mongoose()
+
+server.use('/', userRoutes)
 
 server.get('/', (req, res) => {res.status(200).json({api: 'Server is up and running :)'})});
 
