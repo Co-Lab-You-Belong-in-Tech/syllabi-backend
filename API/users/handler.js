@@ -1,5 +1,6 @@
 const {User} = require('./model.js');
 const hash = require('../../utils/hash.js');
+const generateToken = require('../../utils/token.js')
 
 const register = async (req, res) => {
     let hashedPass = hash(req.body.pass);
@@ -10,15 +11,15 @@ const register = async (req, res) => {
         password: hashedPass
     });
 
-    await user.save()
-        .then(([newUser]) => {
-            const token = generateToken(newUser)
+   user.save()
+        .then((newUser) => {
+            const token = generateToken(newUser);
             res.status(201).json({
                 token: token,
                 userData: newUser
             });
         })
-        .catch(err => res.status(500).json({message: err}))
+        .catch(err => res.status(500).json({message: 'Server Error', error: err}))
 };
 
 module.exports = {

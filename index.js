@@ -1,5 +1,5 @@
 const server = require('./server.js');
-const {PORT} = require('./secret.js');
+const {PORT} = require('./secrets.js');
 
 server.listen(PORT, () => {
     console.log(`listening on Port: ${PORT}`)
