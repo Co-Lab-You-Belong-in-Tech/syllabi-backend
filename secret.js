@@ -1,5 +1,5 @@
 module.exports = {
     jwtSecret: process.env.JWT_SECRET,
-    PORT: process.env.DATABASE_PORT || 3001,
+    PORT: process.env.PORT,
     env: process.env.DATABASE_ENV || 'development'
 };
