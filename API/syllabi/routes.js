@@ -3,17 +3,17 @@ const router = express.Router();
 
 const {
     allSyllabi,
-    // deleteSyllabi,
+    deleteSyllabus,
     // editSyllabi,
     newSyllabus,
     syllabus
 } = require('./handler.js')
 
-// router.get('/:id', syllabus);
-router.get('/all', allSyllabi);
-router.post('/post', newSyllabus)
+router.get('/', allSyllabi);
+router.get('/:id', syllabus);
+router.post('/', newSyllabus)
 // router.put('/:id' editSyllabi)
-// router.delete('/:id', deleteSyllabi)
+router.delete('/:id', deleteSyllabus)
 
 router.get('/greetings', (req, res) => {
     res.status(200).send('Holla')

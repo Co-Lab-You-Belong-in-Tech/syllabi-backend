@@ -4,7 +4,7 @@ const jwt =  require('jsonwebtoken');
 const {Syllabi} = require('./model.js');
 
 const allSyllabi = (req, res) => {
-    const user = {user: "60ad40c938258cfdab5e94e1"}
+    const user = {user: req.body.id}
     Syllabi.find(user).select('-dateCreated -user')
         .then(syllabi => {
             console.log(syllabi)
@@ -46,10 +46,19 @@ const newSyllabus = (req, res) => {
             }
         })
         .catch(err => res.status(500).json({message: 'server error', error: err}))
-}
+};
+
+const deleteSyllabus = (req, res) => {
+    Syllabi.findByIdAndRemove(req.params.id)
+        .then(syllabus => {
+            res.status(200).json({message: 'The product has been removed', deleted: syllabus})
+        })
+        .catch(err => res.status(500).json({message: 'server error', error: err}))
+}   
 
 module.exports = {
     allSyllabi,
+    deleteSyllabus,
     newSyllabus,
     syllabus
 }
