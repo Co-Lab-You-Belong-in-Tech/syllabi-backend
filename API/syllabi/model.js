@@ -13,4 +13,13 @@ const syllabiSchema = mongoose.Schema({
         type: Date,
         default: Date.now
     }
-})
+});
+
+syllabiSchema.virtual('id').get(function() {
+    return this._id.toHexString()
+});
+
+
+syllabiSchema.set('toJSON', {virtuals: true});
+
+exports.Syllabi = mongoose.model('Syllabi', syllabiSchema)
