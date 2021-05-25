@@ -50,8 +50,8 @@ const newSyllabus = (req, res) => {
 
 const deleteSyllabus = (req, res) => {
     Syllabi.findByIdAndRemove(req.params.id)
-        .then(syllabus => {
-            res.status(200).json({message: 'The product has been removed', deleted: syllabus})
+        .then((syllabus) => {
+            res.status(200).json({message: 'Syllabus deleted', deleted: syllabus})
         })
         .catch(err => res.status(500).json({message: 'server error', error: err}))
 }   
