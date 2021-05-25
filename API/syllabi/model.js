@@ -2,18 +2,18 @@ const mongoose = require('mongoose');
 
 const syllabiSchema = mongoose.Schema({
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        type: String,
+        required: true
     },
     data: {
-        type: String,
+        type: Object,
         required: true
     },
     dateCreated: {
         type: Date,
         default: Date.now
     }
-});
+} , {collection: 'syllabi'});
 
 syllabiSchema.virtual('id').get(function() {
     return this._id.toHexString()

@@ -9,7 +9,8 @@ const mongoose = require('./utils/mongoose.js');
 const serverConfig = require('./middleware/ConfigAPI.js');
 
 // routes
-const userRoutes = require('./API/users/routes.js')
+const userRoutes = require('./API/users/routes.js');
+const syllabiRoutes = require('./API/syllabi/routes.js')
 
 
 const server = express();
@@ -18,6 +19,7 @@ mongoose()
 
 
 server.use('/', userRoutes)
+server.use('/syllabi', syllabiRoutes)
 server.get('/', (req, res) => {res.status(200).json({api: 'Server is up and running :)'})});
 
 
