@@ -1,19 +1,25 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 const {User} = require('./model.js');
 const hash = require('../../utils/hash.js');
 const generateToken = require('../../utils/token.js')
 
-const register = async (req, res) => {
-    let hashedPass = hash(req.body.pass);
-
+const register = (req, res) => {
     let user = new User ({
         name: req.body.name,
         email: req.body.email,
-        password: hashedPass
+        passwordHash: hash(req.body.pass),
+        phone: req.body.phone,
+        school: req.body.school
     });
 
    user.save()
         .then((newUser) => {
-            const token = generateToken(newUser);
+            const token = generateToken({
+                user: newUser.id,
+                isAdmin: newUser.isAdmin
+            });
             res.status(201).json({
                 token: token,
                 userData: newUser
@@ -22,6 +28,33 @@ const register = async (req, res) => {
         .catch(err => res.status(500).json({message: 'Server Error', error: err}))
 };
 
+const login = (req, res) => {
+    User.findOne({email: req.body.email})
+        .then((user) => {
+            if (user && bcrypt.compareSync(req.body.password, user.passwordHash)) {
+                const token = jwt.sign( 
+                    {
+                        user: user.id,
+                        isAdmin: user.isAdmin
+                    },
+                    process.env.SECRET,
+                    {expiresIn: '1d'}
+                )
+
+                res.status(200).json({
+                    user: {
+                        email:user.email,
+                        phone: user.phone
+                    }
+                })
+            } else {
+                res.status(401).json({message: 'wrong credentials'})
+            }
+        })
+        .catch(err => res.status(500).json({message: 'server error', error: err}))
+}
+
 module.exports = {
+    login,
     register
 }

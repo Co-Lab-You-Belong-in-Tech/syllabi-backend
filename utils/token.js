@@ -3,7 +3,7 @@ const secrets = require('../secrets.js');
 
 function token(user){
     const payload = { data: user };
-    const options = { expiresIn: '1h' }
+    const options = { expiresIn: '1d' }
 
     return jwtToken.sign(payload, secrets.jwtSecret, options)
 };
