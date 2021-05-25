@@ -9,7 +9,7 @@ const register = (req, res) => {
     let user = new User ({
         name: req.body.name,
         email: req.body.email,
-        passwordHash: hash(req.body.pass),
+        passwordHash: hash(req.body.password),
         phone: req.body.phone,
         school: req.body.school
     });
@@ -22,7 +22,12 @@ const register = (req, res) => {
             });
             res.status(201).json({
                 token: token,
-                userData: newUser
+                userData: {
+                    name: newUser.name,
+                    email: newUser.email,
+                    school: newUser.school
+
+                }
             });
         })
         .catch(err => res.status(500).json({message: 'Server Error', error: err}))
@@ -42,9 +47,11 @@ const login = (req, res) => {
                 )
 
                 res.status(200).json({
+                    token: token,
                     user: {
                         email:user.email,
-                        phone: user.phone
+                        phone: user.phone,
+                        school: user.school
                     }
                 })
             } else {
