@@ -7,7 +7,6 @@ const allSyllabi = (req, res) => {
     const user = {user: req.body.id}
     Syllabi.find(user).select('-dateCreated -user')
         .then(syllabi => {
-            console.log(syllabi)
             if (syllabi) {
                 res.status(200).json({
                     syllabi: syllabi
